@@ -1,26 +1,26 @@
 # SyncSphere — Real-Time Collaborative Watch Party
 
-A synchronized video streaming lounge built for the **VinnovateIT Club Technical Round 1 Challenge**[cite: 1]. SyncSphere enables multiple users to watch videos concurrently with authoritative server time synchronization, drift correction, real-time live chat, group polling, floating reactions, and movie discovery[cite: 1].
+A synchronized video streaming lounge built for the **VinnovateIT Club Technical Round 1 Challenge**. SyncSphere enables multiple users to watch videos concurrently with authoritative server time synchronization, drift correction, real-time live chat, group polling, floating reactions, and movie discovery.
 
 ---
 
 ## Key Features
 
-* **Authoritative Playback Sync**: Real-time broadcast and synchronization of `play`, `pause`, and `seek` events via WebSockets[cite: 1].
-* **Automatic Drift Detection & Correction**: Periodic 2-second heartbeat loop detecting client-server drift and auto-correcting if out of sync by $> 500\text{ ms}$[cite: 1].
-* **Real-time Diagnostic HUD**: Live on-screen telemetry tracking Round-Trip Time (RTT) and playback drift in milliseconds[cite: 1].
-* **Movie Discovery**: Curated streaming catalog with category filters (Sci-Fi, Fantasy, Action, Nature) and fuzzy search[cite: 1].
+* **Authoritative Playback Sync**: Real-time broadcast and synchronization of `play`, `pause`, and `seek` events via WebSockets .
+* **Automatic Drift Detection & Correction**: Periodic 2-second heartbeat loop detecting client-server drift and auto-correcting if out of sync by $> 500\text{ ms}$ .
+* **Real-time Diagnostic HUD**: Live on-screen telemetry tracking Round-Trip Time (RTT) and playback drift in milliseconds .
+* **Movie Discovery**: Curated streaming catalog with category filters (Sci-Fi, Fantasy, Action, Nature) and fuzzy search .
 * **Social Lounge**:
-  * Live room chat with participant presence tracking[cite: 1].
-  * Synchronized group polls with real-time percentage updates[cite: 1].
-  * Ephemeral floating emoji reactions (❤️, 🔥, 😂, 🍿, 😱, 🎉)[cite: 1].
-  * One-click shareable room links (`?room=XYZ`)[cite: 1].
+  * Live room chat with participant presence tracking .
+  * Synchronized group polls with real-time percentage updates .
+  * Ephemeral floating emoji reactions (❤️, 🔥, 😂, 🍿, 😱, 🎉) .
+  * One-click shareable room links (`?room=XYZ`) .
 
 ---
 
 ## Technical Benchmarks & Latency Measurements
 
-The application was benchmarked against the prompt's strict network constraints[cite: 1]:
+The application was benchmarked against the prompt's strict network constraints :
 
 | Metric | Required Constraint | Measured Performance | Status |
 | :--- | :--- | :--- | :--- |
@@ -44,14 +44,14 @@ The application was benchmarked against the prompt's strict network constraints[
    * Local network benchmarking conducted across loopback and local Wi-Fi.
    * Throttled network testing simulated via Chrome DevTools (Fast 3G & Slow 3G profiles) to verify reconnection resilience.
 3. **Concurrency Stress Test**:
-   * Tested with 10+ concurrent client instances connected to the same room session executing simultaneous play, pause, seek, and emoji events[cite: 1].
+   * Tested with 10+ concurrent client instances connected to the same room session executing simultaneous play, pause, seek, and emoji events .
 
 ---
 
 ## Failure Handling & Edge Cases
 
-* **Late Join Synchronization**: When a user joins mid-stream, the server computes the elapsed playback duration using the room's anchor timestamp. The new participant receives the exact frame without restarting from $0:00$[cite: 1].
-* **Drift & Dropped Frames**: If client hardware stutters or drops frames leading to drift $> 500\text{ ms}$, the heartbeat engine automatically forces an inline seek correction (`video.currentTime = serverTime`)[cite: 1].
+* **Late Join Synchronization**: When a user joins mid-stream, the server computes the elapsed playback duration using the room's anchor timestamp. The new participant receives the exact frame without restarting from $0:00$ .
+* **Drift & Dropped Frames**: If client hardware stutters or drops frames leading to drift $> 500\text{ ms}$, the heartbeat engine automatically forces an inline seek correction (`video.currentTime = serverTime`) .
 * **Event Echo / Re-entrancy Loops**: Programmatic seeks triggered by remote socket events are wrapped with an `isRemoteAction` guard, preventing an infinite feedback loop of socket broadcasts.
 * **Autoplay Policy Fallback**: Modern browsers block programmatic unmuted media playback. If `video.play()` is rejected by browser policy, the player automatically falls back to muted playback with a notification.
 
